@@ -15,7 +15,7 @@ import lombok.Setter;
 public class Caminhao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String marca;
     private String modelo;
     private double altura;
