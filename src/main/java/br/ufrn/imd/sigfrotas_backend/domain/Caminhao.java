@@ -6,18 +6,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
-@Table(name = "motorista")
+@Table(name = "caminhao")
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Motorista {
+public class Caminhao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String nome;
-    private long idCaminhao;
+    private String marca;
+    private String modelo;
+    private double altura;
+    private double cargaMaxima;
 }
