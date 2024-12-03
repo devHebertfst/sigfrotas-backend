@@ -6,17 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "motorista")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Motorista {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nome;
-    private String cpf;
+@Table(name = "motorista")
+public class Motorista extends Usuario {
+    @ManyToOne
+    @JoinColumn(name = "caminhao_id")
     private Caminhao caminhao;
 }

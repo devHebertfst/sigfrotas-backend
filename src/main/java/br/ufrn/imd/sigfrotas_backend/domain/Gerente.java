@@ -1,22 +1,18 @@
 package br.ufrn.imd.sigfrotas_backend.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "gerente")
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Gerente {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String cnpj;;
-    private String senha;
-    private String username;
+@Entity
+@Table(name = "gerente")
+public class Gerente extends Usuario {
+    private String cnpj;
 }
