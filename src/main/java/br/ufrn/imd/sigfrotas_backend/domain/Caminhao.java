@@ -14,8 +14,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Caminhao {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CAMINHAO")
+    @SequenceGenerator(name = "SEQ_CAMINHAO", sequenceName = "seq_caminhao", allocationSize = 1)    private Long id;
     private String marca;
     private String modelo;
     private double altura;
