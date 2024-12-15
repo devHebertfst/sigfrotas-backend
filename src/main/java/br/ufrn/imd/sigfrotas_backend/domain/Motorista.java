@@ -12,8 +12,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity
 @Table(name = "motorista")
-public class Motorista extends Usuario {
+public class Motorista  {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MOTORISTA")
+    @SequenceGenerator(name = "SEQ_MOTORISTA", sequenceName = "seq_motorista", allocationSize = 1)
+    private Long id;
+
+    @OneToOne
+    private Pessoa pessoa;
+
     @ManyToOne
     @JoinColumn(name = "caminhao_id")
     private Caminhao caminhao;
+
+
 }
