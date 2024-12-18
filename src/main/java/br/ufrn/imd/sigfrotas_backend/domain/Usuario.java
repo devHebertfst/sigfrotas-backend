@@ -40,4 +40,9 @@ public class Usuario implements UserDetails {
     public String getPassword() {
         return senha;
     }
+
+    public void setRole(Cargo cargo) {
+        this.cargo = cargo;
+    }
+
 }

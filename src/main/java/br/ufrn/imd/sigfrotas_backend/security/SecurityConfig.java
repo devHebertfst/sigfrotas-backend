@@ -1,6 +1,6 @@
 package br.ufrn.imd.sigfrotas_backend.security;
 
-import br.ufrn.imd.sigfrotas_backend.services.UserService;
+import br.ufrn.imd.sigfrotas_backend.services.auth.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +29,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(
             HttpSecurity http, PasswordEncoder passwordEncoder, UserService userService) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .userDetailsService(username -> userService.findByUsername(username)
+                .userDetailsService(username -> userService.findByLogin(username)
                         .orElseThrow(() -> new RuntimeException("User not found")))
                 .passwordEncoder(passwordEncoder)
                 .and()

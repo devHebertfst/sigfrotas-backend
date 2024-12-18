@@ -1,32 +1,54 @@
 package br.ufrn.imd.sigfrotas_backend.controller;
 
-import br.ufrn.imd.sigfrotas_backend.services.JwtService;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+
+import br.ufrn.imd.sigfrotas_backend.domain.Usuario;
+import br.ufrn.imd.sigfrotas_backend.dto.UserReqResponseDTO;
+import br.ufrn.imd.sigfrotas_backend.services.auth.UsuarioManagementService;
+import jakarta.security.auth.message.AuthException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
+    @Autowired
+    private UsuarioManagementService usuarioManagementService;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtService jwtService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
+    @PostMapping("/register")
+    public ResponseEntity<Usuario> register(@RequestBody Usuario userReqResponseDTO) throws AuthException {
+            Usuario userReqResponseDTO1 = usuarioManagementService.register(userReqResponseDTO);
+            return ResponseEntity.ok().body(userReqResponseDTO1);
     }
 
-    @PostMapping
-    public Map<String, String> authenticate(@RequestBody Map<String, String> request) {
-        var username = request.get("username");
-        var password = request.get("password");
-
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-
-        String token = jwtService.generateToken(username);
-        return Map.of("token", token);
+    @PostMapping("/login")
+    public ResponseEntity<UserReqResponseDTO> login(@RequestBody Usuario userReqResponseDTO){
+        try {
+            UserReqResponseDTO userReqResponseDTO1 = usuarioManagementService.login(userReqResponseDTO);
+            return ResponseEntity.ok().body(userReqResponseDTO1);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(null);
+        }
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<UserReqResponseDTO> refresh(@RequestBody Usuario userReqResponseDTO){
+        try {
+            UserReqResponseDTO userReqResponseDTO1 = usuarioManagementService.refresh(userReqResponseDTO);
+            return ResponseEntity.ok().body(userReqResponseDTO1);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @GetMapping("/test-exception")
+    public void testException() throws AuthException {
+        throw new AuthException("Teste de AuthException");
+    }
+
+
 }

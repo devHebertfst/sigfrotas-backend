@@ -15,9 +15,13 @@ import lombok.Setter;
 public class Caminhao {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_CAMINHAO")
-    @SequenceGenerator(name = "SEQ_CAMINHAO", sequenceName = "seq_caminhao", allocationSize = 1)    private Long id;
+    @SequenceGenerator(name = "SEQ_CAMINHAO", sequenceName = "seq_caminhao", allocationSize = 1)
+    private Long id;
     private String marca;
     private String modelo;
     private double altura;
     private double cargaMaxima;
+
+
+
 }
