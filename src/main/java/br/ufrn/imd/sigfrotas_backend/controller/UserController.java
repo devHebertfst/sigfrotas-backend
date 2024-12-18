@@ -1,7 +1,7 @@
 package br.ufrn.imd.sigfrotas_backend.controller;
 
 import br.ufrn.imd.sigfrotas_backend.domain.Usuario;
-import br.ufrn.imd.sigfrotas_backend.services.UserService;
+import br.ufrn.imd.sigfrotas_backend.services.auth.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
