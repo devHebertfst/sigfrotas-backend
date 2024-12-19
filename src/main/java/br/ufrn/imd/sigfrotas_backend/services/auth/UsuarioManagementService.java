@@ -37,7 +37,7 @@ public class UsuarioManagementService {
 
         Usuario user = new Usuario();
         user.setUsername(usuarioReq.getUsername());
-        user.setRole(Cargo.GERENTE);
+        user.setRole(usuarioReq.getCargo());
         user.setSenha(passwordEncoder.encode(usuarioReq.getPassword()));
 
         Usuario usuarioSalvoBD = userService.save(user);
