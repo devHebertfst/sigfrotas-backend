@@ -2,7 +2,6 @@ package br.ufrn.imd.sigfrotas_backend.services;
 
 import br.ufrn.imd.sigfrotas_backend.domain.Motorista;
 import br.ufrn.imd.sigfrotas_backend.repositories.MotoristaRepository;
-import br.ufrn.imd.sigfrotas_backend.repository.MotoristaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

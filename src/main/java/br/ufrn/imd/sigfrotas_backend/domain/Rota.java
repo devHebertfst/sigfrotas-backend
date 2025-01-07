@@ -9,6 +9,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Entity
 public class Rota {
 
@@ -18,18 +19,17 @@ public class Rota {
     @SequenceGenerator(name = "seq_rota", sequenceName = "seq_rota", allocationSize = 1)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "origem_id")
     private Endereco origem;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "destino_id")
     private Endereco destino;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Endereco> pontosIntermediarios;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Caminhao caminhao;
-
 }

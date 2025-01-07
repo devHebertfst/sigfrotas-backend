@@ -2,6 +2,7 @@ package br.ufrn.imd.sigfrotas_backend.controller;
 
 import br.ufrn.imd.sigfrotas_backend.domain.Rota;
 import br.ufrn.imd.sigfrotas_backend.services.RotaService;
+import br.ufrn.imd.sigfrotas_backend.services.SmartRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,9 @@ public class RotaController {
 
     @Autowired
     private RotaService rotaService;
+
+    @Autowired
+    private SmartRouteService smartRouteService;
 
     @GetMapping
     public ResponseEntity<List<Rota>> getAllRotas() {
@@ -50,5 +54,24 @@ public class RotaController {
         }
         rotaService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/smart-routes/{id}")
+    public ResponseEntity<Rota> calculateSmartRoute(@PathVariable Long id) {
+        // Carregar a rota do banco de dados. To-do mover para o service.
+        Optional<Rota> optionalRota = rotaService.findById(id);
+        if (!optionalRota.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Rota rota = optionalRota.get();
+
+        Rota rotaOtimizada = smartRouteService.calcularRotaOtimizada(
+                rota.getOrigem(),
+                rota.getDestino(),
+                rota.getPontosIntermediarios()
+        );
+
+        return ResponseEntity.ok(rotaOtimizada);
     }
 }
