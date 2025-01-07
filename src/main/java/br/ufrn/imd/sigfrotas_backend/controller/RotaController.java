@@ -1,5 +1,6 @@
 package br.ufrn.imd.sigfrotas_backend.controller;
 
+import br.ufrn.imd.sigfrotas_backend.domain.Endereco;
 import br.ufrn.imd.sigfrotas_backend.domain.Rota;
 import br.ufrn.imd.sigfrotas_backend.services.RotaService;
 import br.ufrn.imd.sigfrotas_backend.services.SmartRouteService;
@@ -57,8 +58,7 @@ public class RotaController {
     }
 
     @GetMapping("/smart-routes/{id}")
-    public ResponseEntity<Rota> calculateSmartRoute(@PathVariable Long id) {
-        // Carregar a rota do banco de dados. To-do mover para o service.
+    public ResponseEntity<Rota> calculateSmartRouteOptimization(@PathVariable Long id) {
         Optional<Rota> optionalRota = rotaService.findById(id);
         if (!optionalRota.isPresent()) {
             return ResponseEntity.notFound().build();
@@ -66,7 +66,19 @@ public class RotaController {
 
         Rota rota = optionalRota.get();
 
-        Rota rotaOtimizada = smartRouteService.calcularRotaOtimizada(
+        // Validar coordenadas
+        if (rota.getOrigem().getLatitude() == null || rota.getOrigem().getLongitude() == null ||
+                rota.getDestino().getLatitude() == null || rota.getDestino().getLongitude() == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        for (Endereco ponto : rota.getPontosIntermediarios()) {
+            if (ponto.getLatitude() == null || ponto.getLongitude() == null) {
+                return ResponseEntity.badRequest().body(null);
+            }
+        }
+
+        // Calcular a rota otimizada
+        Rota rotaOtimizada = smartRouteService.calcularRotaOtimizadaComOptimization(
                 rota.getOrigem(),
                 rota.getDestino(),
                 rota.getPontosIntermediarios()
@@ -74,4 +86,7 @@ public class RotaController {
 
         return ResponseEntity.ok(rotaOtimizada);
     }
+
+
+
 }
